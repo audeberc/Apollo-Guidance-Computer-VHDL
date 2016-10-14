@@ -29,8 +29,13 @@ begin
 end process;
 end behavior;
 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
 entity carry_ff is
-    Port ( clk : in stf_logic;
+    Port ( clk : in std_logic;
            c_in : in std_logic;
            c_out : out std_logic;
            force_in : in std_logic
@@ -50,6 +55,10 @@ begin
 end process;
 end behavior;
 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity complement_adder is
   Port ( clk : in std_logic;
@@ -73,19 +82,20 @@ component full_adder
 end component;
 
 component carry_ff is
-    Port ( clk : in stf_logic;
+    Port ( clk : in std_logic;
            c_in : in std_logic;
-           c_out : out std_logic
+           c_out : out std_logic;
+           force_in : in std_logic
            );
 end component;
 
-SIGNAL carry_out : stf_logic;
-SIGNAL carry_in : stf_logic;
+SIGNAL carry_out : std_logic;
+SIGNAL carry_in : std_logic;
 begin
 
 full_adder_1: full_adder
   port map (X,Y,carry_in,s,carry_out);
 
 carry_ff_1: carry_ff
-  port map (clk,carry_out,carry_in);
+  port map (clk,carry_out,carry_in,c_in);
 end structure;

@@ -54,13 +54,13 @@ begin
 
     if (wy) = '0' then
       x_add <= (others => '0');
-    elsif (wx = '0')
+    elsif (wx = '0') then
       x_add <= w_bus;
     end if;
 
     if (ci = '1' and wy = '0') then
       c_force_add <= '0';
-    elsif (ci = '0')
+    elsif (ci = '0') then
       c_force_add <= '1';
     end if;
   end if;
@@ -79,6 +79,7 @@ case ctrl is
   when "101" => ALU_out <= not B;
   when "110" => ALU_out <= u_add;
   when "111" => ALU_out <= (others=>'0');
+  when others => ALU_out <= (others => '0');
 end case;
 end process;
 end behavior;

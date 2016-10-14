@@ -55,6 +55,7 @@ begin
 
     stimuli : process
     begin
+        -- RESET
         w_bus <= (others => '0');
         wx <= '1';
         wy <= '1';
@@ -64,6 +65,76 @@ begin
         rb <= '1';
         rc <= '1';
         ru <= '1';
+        wait for 2*TbPeriod;
+        -- WRITE 4 in Y
+        w_bus <= "0000000000000100";
+        wx <= '1';
+        wy <= '0';
+        wb <= '1';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '1';
+        rc <= '1';
+        ru <= '1';
+        wait for 2*TbPeriod;
+        -- WRITE -2 in X
+        w_bus <= "1111111111111101";
+        wx <= '0';
+        wy <= '1';
+        wb <= '1';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '1';
+        rc <= '1';
+        ru <= '1';
+
+        wait for 2*TbPeriod;
+        -- READ RESULT = 2
+        w_bus <= "1111111111111101";
+        wx <= '1';
+        wy <= '1';
+        wb <= '1';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '1';
+        rc <= '1';
+        ru <= '0';
+
+        wait for 2*TbPeriod;
+        -- WRITE 18 in B
+        w_bus <= x"0012";
+        wx <= '1';
+        wy <= '1';
+        wb <= '0';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '1';
+        rc <= '1';
+        ru <= '1';
+        wait for 2*TbPeriod;
+        -- READ B
+        w_bus <= x"0012";
+        wx <= '1';
+        wy <= '1';
+        wb <= '1';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '0';
+        rc <= '1';
+        ru <= '1';
+        wait for 2*TbPeriod;
+        -- READ C
+        w_bus <= x"0012";
+        wx <= '1';
+        wy <= '1';
+        wb <= '1';
+        wxy <= '1';
+        ci <= '1';
+        rb <= '1';
+        rc <= '0';
+        ru <= '1';
+        wait for 2*TbPeriod;
+
         wait;
     end process;
 

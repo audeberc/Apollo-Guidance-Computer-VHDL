@@ -56,8 +56,8 @@ signal c_sig : std_logic;
 begin
 
 adder_1: complement_adder
-  port map (clk,x_sig,y_sig,s_sig,c_sig);
+  port map (clk,x_sig,y_sig,u_sig,c_sig);
 
-carry_ff_1: carry_ff
+ALU_reg_1: ALU_reg
   port map (clk,wx,wy,wb,wxy,ci,rb,rc,ru,x_sig,y_sig,c_sig,u_sig,w_bus,ALU_out);
 end structure;
