@@ -3,29 +3,61 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity parallel_adder is
-    Port ( clk : in std_logic;
-           a : in std_logic_vector(15 downto 0);
-           b : in std_logic_vector(15 downto 0);
-           cin : in std_logic;
-           s : out std_logic_vector(15 downto 0);
-           c : out std_logic
-           );
-end parallel_adder;
+entity ALU is
+  Port ( clk : in std_logic;
+         w_bus : in std_logic_vector(15 downto 0);
+         ALU_out : out std_logic_vector(15 downto 0);
+         wx : in std_logic;
+         wy : in std_logic;
+         wb : in std_logic;
+         wxy : in std_logic;
+         ci : in std_logic;
+         rb : in std_logic;
+         rc : in std_logic;
+         ru : in std_logic
+         );
+end ALU;
 
-architecture behavior of parallel_adder is
 
+architecture structure of ALU is
+
+ component complement_adder
+   Port ( clk : in std_logic;
+          X : in std_logic_vector(15 downto 0);
+          Y : in std_logic_vector(15 downto 0);
+          s : out std_logic_vector(15 downto 0);
+          c_in : in std_logic
+          );
+ end component;
+
+component ALU_reg
+      Port ( clk : in std_logic;
+             wx : in std_logic;
+             wy : in std_logic;
+             wb : in std_logic;
+             wxy : in std_logic;
+             ci : in std_logic;
+             rb : in std_logic;
+             rc : in std_logic;
+             ru : in std_logic;
+             x_add : out std_logic_vector(15 downto 0);
+             y_add : out std_logic_vector(15 downto 0);
+             c_force_add : out std_logic;
+             u_add : in std_logic_vector(15 downto 0);
+             w_bus : in std_logic_vector(15 downto 0);
+             ALU_out : out std_logic_vector(15 downto 0)
+             );
+end component;
+
+signal x_sig : std_logic_vector(15 downto 0);
+signal y_sig : std_logic_vector(15 downto 0);
+signal u_sig : std_logic_vector(15 downto 0);
+signal c_sig : std_logic;
 begin
-process(clk,a,b,cin)
-variable u:std_logic;
-begin
-  if (clk'event and clk='1') then
-    u:=cin;
-    for i in 0 to 15 loop
-    s(i)<=a(i) xor b(i) xor u;
-    u:=(a(i) and b(i))or(b(i) and u) or(u and a(i));
-    end loop;
-    c<=u;
-  end if;
-end process;
-end behavior;
+
+adder_1: complement_adder
+  port map (clk,x_sig,y_sig,s_sig,c_sig);
+
+carry_ff_1: carry_ff
+  port map (clk,wx,wy,wb,wxy,ci,rb,rc,ru,x_sig,y_sig,c_sig,u_sig,w_bus,ALU_out);
+end structure;

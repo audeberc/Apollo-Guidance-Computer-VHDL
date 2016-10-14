@@ -32,20 +32,21 @@ end behavior;
 entity carry_ff is
     Port ( clk : in stf_logic;
            c_in : in std_logic;
-           c_out : out std_logic
+           c_out : out std_logic;
+           force_in : in std_logic
            );
 end carry_ff;
 
 architecture behavior of carry_ff is
 
 begin
-process(clk)
+process(clk,force_in)
 begin
-if RISING_EDGE(clk) then
-  c_out <= '0';
-elsif FALLING_EDGE(clk) then
-  c_out <= c_in;
-end if;
+  if RISING_EDGE(clk) then
+    c_out <= force_in;
+  elsif FALLING_EDGE(clk) then
+    c_out <= c_in OR force_in;
+  end if;
 end process;
 end behavior;
 
@@ -54,7 +55,8 @@ entity complement_adder is
   Port ( clk : in std_logic;
          X : in std_logic_vector(15 downto 0);
          Y : in std_logic_vector(15 downto 0);
-         s : out std_logic_vector(15 downto 0)
+         s : out std_logic_vector(15 downto 0);
+         c_in : in std_logic
          );
 end complement_adder;
 
