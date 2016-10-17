@@ -4,5 +4,5 @@
 Early work in progress - 
 PROC MODULE
 
-ALU -  :white_check_mark: complete
-CTR -  :arrow_forward: not tested
+    ..*ALU -  :white_check_mark: complete
+    ..*CTR -  :arrow_forward: not tested
